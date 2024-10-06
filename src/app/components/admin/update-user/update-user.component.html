@@ -1,8 +1,8 @@
-<form [formGroup]="userForm" (ngSubmit)="createNewUser()">
+<form [formGroup]="form" (ngSubmit)="updateUser()">
   <div>
     <label for="email">Email</label>
     <input id="email" formControlName="email" type="email" />
-    @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
+    @if (form.get('email')?.invalid && form.get('email')?.touched) {
       <small>Email is required and must be valid.</small>
     }
   </div>
@@ -10,7 +10,7 @@
   <div>
     <label for="password">Password</label>
     <input id="password" formControlName="password" type="password" />
-    @if (userForm.get('password')?.invalid && userForm.get('password')?.touched) {
+    @if (form.get('password')?.invalid && form.get('password')?.touched) {
       <small>Password is required (minimum 6 characters).</small>
     }
   </div>
@@ -22,7 +22,7 @@
       <option value="coordinator">Coordinator</option>
       <option value="admin">Admin</option>
     </select>
-    @if (userForm.get('role')?.invalid && userForm.get('role')?.touched) {
+    @if (form.get('role')?.invalid && form.get('role')?.touched) {
       <small>Role is required.</small>
     }
   </div>
@@ -30,7 +30,7 @@
   <div>
     <label for="phoneNumber">Phone Number</label>
     <input id="phoneNumber" formControlName="phoneNumber" type="text" />
-    @if (userForm.get('phoneNumber')?.invalid && userForm.get('phoneNumber')?.touched) {
+    @if (form.get('phoneNumber')?.invalid && form.get('phoneNumber')?.touched) {
       <small>Phone number is required and must be valid.</small>
     }
   </div>
@@ -38,22 +38,18 @@
   <div>
     <label for="staffId">Staff ID</label>
     <input id="staffId" formControlName="staffId" type="text" />
-    @if (userForm.get('staffId')?.invalid && userForm.get('staffId')?.touched) {
+    @if (form.get('staffId')?.invalid && form.get('staffId')?.touched) {
       <small>Staff ID is required.</small>
     }
   </div>
 
-  <button type="submit" [disabled]="userForm.invalid || isLoading">Create User</button>
+  <button type="submit" [disabled]="form.invalid">Create User</button>
 
-  @if (isLoading) {
-    <p>Creating user...</p>
+  @if (success) {
+    <p>{{ success }}</p>
   }
 
-  @if (successMessage) {
-    <p>{{ successMessage }}</p>
-  }
-
-  @if (errorMessage) {
-    <p>{{ errorMessage }}</p>
+  @if (error) {
+    <p>{{ error }}</p>
   }
 </form>

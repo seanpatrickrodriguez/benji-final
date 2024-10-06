@@ -1,0 +1,39 @@
+<div class="delete-user-container">
+  <h2>Delete User</h2>
+  
+  <!-- Form for deleting user -->
+  <form [formGroup]="form" (ngSubmit)="confirmDelete()">
+    <div class="form-group">
+      <label for="email">User Email:</label>
+      <input type="email" id="email" formControlName="email" placeholder="Enter user email" />
+      @if(form.get('email') && form.get('email')?.touched) {
+        <div class="error-message">
+          Please enter a valid email address.
+        </div>
+      }
+    </div>
+    <button type="submit" [disabled]="form.invalid" class="btn-delete">Delete User</button>
+  </form>
+
+  <!-- Confirmation modal -->
+  @if(showConfirmation) {
+  <div class="confirmation-modal">
+    <div class="modal-content">
+      <p>Are you sure you want to delete the user with email: {{ form.get('email')?.value }}?</p>
+      <button (click)="deleteUser()" class="btn-confirm">Yes, Delete</button>
+      <button (click)="cancelDelete()" class="btn-cancel">Cancel</button>
+    </div>
+  </div>}
+
+  <!-- Success/Error messages -->
+   @if(success) {
+    <div class="success-message">
+      {{ success }}
+    </div>
+  }
+    @if(error) {
+    <div class="error-message">
+      {{ error }}
+    </div>
+    }
+</div>

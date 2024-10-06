@@ -1,0 +1,55 @@
+<form [formGroup]="form" (ngSubmit)="createNewUser()">
+  <div>
+    <label for="email">Email</label>
+    <input id="email" formControlName="email" type="email" />
+    @if (form.get('email')?.invalid && form.get('email')?.touched) {
+      <small>Email is required and must be valid.</small>
+    }
+  </div>
+
+  <div>
+    <label for="password">Password</label>
+    <input id="password" formControlName="password" type="password" />
+    @if (form.get('password')?.invalid && form.get('password')?.touched) {
+      <small>Password is required (minimum 6 characters).</small>
+    }
+  </div>
+
+  <div>
+    <label for="role">Role</label>
+    <select id="role" formControlName="role">
+      <option value="staff">Staff</option>
+      <option value="coordinator">Coordinator</option>
+      <option value="admin">Admin</option>
+    </select>
+    @if (form.get('role')?.invalid && form.get('role')?.touched) {
+      <small>Role is required.</small>
+    }
+  </div>
+
+  <div>
+    <label for="phoneNumber">Phone Number</label>
+    <input id="phoneNumber" formControlName="phoneNumber" type="text" />
+    @if (form.get('phoneNumber')?.invalid && form.get('phoneNumber')?.touched) {
+      <small>Phone number is required and must be valid.</small>
+    }
+  </div>
+
+  <div>
+    <label for="staffId">Staff ID</label>
+    <input id="staffId" formControlName="staffId" type="text" />
+    @if (form.get('staffId')?.invalid && form.get('staffId')?.touched) {
+      <small>Staff ID is required.</small>
+    }
+  </div>
+
+  <button type="submit" [disabled]="form.invalid">Create User</button>
+
+  @if (success) {
+    <p>{{ success }}</p>
+  }
+
+  @if (error) {
+    <p>{{ error }}</p>
+  }
+</form>

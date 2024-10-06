@@ -12,6 +12,14 @@ interface SendPasswordResetData {
   phoneNumber?: string;
 }
 
+interface CreateUserData {
+  id: string;
+  email: string;
+  phoneNumber: string;
+  role: string;
+  rank: number;
+}
+
 /**
  * Cloud Function to recover a user's email by their ID.
  *
@@ -90,13 +98,13 @@ export const sendPasswordReset = functions.https.onCall(async (data: SendPasswor
   }
 });
 
-export const createUser = functions.https.onCall(async (data, context) => {
+export const createUser = functions.https.onCall(async (data: CreateUserData, context) => {
   if (!context.auth || !context.auth.token.admin) {
     throw new functions.https.HttpsError('permission-denied', 'Must be an admin to create a new user.');
   }
 
-  const { email, password, phoneNumber, id, role, rank } = data;
-  if (!email || !password || !id || !phoneNumber || !role || !rank) {
+  const { email, phoneNumber, id, role, rank } = data;
+  if (!email || !id || !phoneNumber || !role || !rank) {
     throw new functions.https.HttpsError('invalid-argument', 'Missing required fields');
   }
 
@@ -104,7 +112,6 @@ export const createUser = functions.https.onCall(async (data, context) => {
     // Create the user in Firebase Auth.
     const userRecord = await admin.auth().createUser({
       email,
-      password,
       phoneNumber,
     });
 
@@ -114,6 +121,41 @@ export const createUser = functions.https.onCall(async (data, context) => {
       role,
       rank
     });
+
+    await admin.firestore().collection('users').doc(userRecord.uid).set({ email, phoneNumber, id, role, rank })
+
+    // Return the new user's UID.
+    return { uid: userRecord.uid };
+  } catch (error: any) {
+    throw new functions.https.HttpsError('internal', 'Unable to create user', error.message);
+  }
+});
+
+export const updateUser = functions.https.onCall(async (data: CreateUserData, context) => {
+  if (!context.auth || !context.auth.token.admin) {
+    throw new functions.https.HttpsError('permission-denied', 'Must be an admin to update a user.');
+  }
+
+  const { email, phoneNumber, id, role, rank } = data;
+  if (!email || !id || !phoneNumber || !role || !rank) {
+    throw new functions.https.HttpsError('invalid-argument', 'Missing required fields');
+  }
+
+  try {
+    // Create the user in Firebase Auth.
+    const userRecord = await admin.auth().createUser({
+      email,
+      phoneNumber,
+    });
+
+    // Assign custom claims if needed.
+    await admin.auth().setCustomUserClaims(userRecord.uid, {
+      id,
+      role,
+      rank
+    });
+
+    await admin.firestore().collection('users').doc(userRecord.uid).set({ email, phoneNumber, id, role, rank })
 
     // Return the new user's UID.
     return { uid: userRecord.uid };
