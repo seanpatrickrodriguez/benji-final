@@ -1,7 +1,6 @@
-import { inject, Injectable, Signal, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { WithLoading } from '../decorators/with-loading.decorator';
 import { Auth } from '@angular/fire/auth';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { LoadingService } from './loading.service';
 import { Functions, httpsCallable, HttpsCallableResult } from '@angular/fire/functions';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
@@ -16,7 +15,6 @@ import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 export class AdminService {
   /**
    * Instance of LoadingService to manage loading state.
-   * @type {LoadingService}
    */
   loadingService = inject(LoadingService);
 
@@ -40,15 +38,14 @@ export class AdminService {
    * @param {string} password - The user's password.
    * @param {string} role - The role assigned to the user (e.g., 'staff', 'coordinator', 'admin').
    * @param {string} phoneNumber - The user's phone number.
-   * @param {string} staffId - The unique staff ID assigned to the user.
+   * @param {string} id - The unique staff ID assigned to the user.
    * @returns A promise that resolves when the user is created and stored in Firestore.
    */
   @WithLoading()
-  async createUser(email: string, password: string, role: string, phoneNumber: string, staffId: string) {
+  async createUser(email: string, password: string, phoneNumber: string, id: string, role: string, rank: number) {
     // Create user in Firebase Auth using a cloud function to ensure security.
     const createUserFunction = httpsCallable(this.functions, 'createUser');
-    const userCredential = await createUserFunction({ email, password, phoneNumber, staffId }) as HttpsCallableResult<{ uid: string }>;
-
+    const userCredential = await createUserFunction({ email, password, phoneNumber, id, role, rank }) as HttpsCallableResult<{ uid: string }>;
     // Save additional user data to Firestore.
     const userId = userCredential.data.uid;
     const userDocRef = doc(this.firestore, `users/${userId}`);
@@ -56,7 +53,7 @@ export class AdminService {
       email,
       phoneNumber,
       role,
-      staffId,
+      staffId: id,
       createdAt: new Date().toISOString(),
     });
   }

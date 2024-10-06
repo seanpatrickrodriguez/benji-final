@@ -40,7 +40,7 @@ export class AuthService {
   constructor(
     private auth: Auth,
     private functions: Functions,
-  ) { 
+  ) {
     this.user$ = toSignal(user(this.auth));
   }
 
@@ -74,17 +74,7 @@ export class AuthService {
    * @returns A promise that resolves with the response from the backend function.
    */
   @WithLoading()
-  recoverPassword(email?: string, phoneNumber?: string) {
-    return httpsCallable(this.functions, 'sendPasswordReset')({ email, phoneNumber });
-  }
-
-  /**
-   * Calls a backend function to recover a user's email by their ID.
-   * @param {string} id - The ID of the user whose email needs to be recovered.
-   * @returns A promise that resolves with the response from the backend function.
-   */
-  @WithLoading()
-  recoverEmail(id: string) {
-    return httpsCallable(this.functions, 'recoverEmail')({ id });
+  sendPasswordReset(staffId: string, email?: string, phoneNumber?: string) {
+    return httpsCallable(this.functions, 'sendPasswordReset')({ staffId, email, phoneNumber });
   }
 }
