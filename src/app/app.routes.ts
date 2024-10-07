@@ -14,6 +14,11 @@ export const routes: Routes = [
     loadComponent: () => import('./components/login/login.component').then((m) => m.LoginComponent),
   },
   {
+    canActivate: [guestGuard],
+    path: 'account-recovery',
+    loadComponent: () => import('./components/account-recovery/account-recovery.component').then((m) => m.AccountRecoveryComponent),
+  },
+  {
     canActivate: [authGuard],
     path: 'dashboard',
     loadComponent: () => import('./components/dashboard/dashboard.component').then((m) => m.DashboardComponent),

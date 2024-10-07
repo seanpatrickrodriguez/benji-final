@@ -1,0 +1,35 @@
+<div class="delete-organization-container">
+  <h2>Delete Organization</h2>
+
+  <form [formGroup]="form" (ngSubmit)="confirmDelete(organizationId)">
+    <div class="form-group">
+      <label for="organizationId">Organization ID:</label>
+      <input type="text" id="organizationId" formControlName="organizationId" placeholder="Enter organization ID to delete" />
+      @if (form.get('organizationId')?.invalid && form.get('organizationId')?.touched) {
+        <div class="error-message">
+          Organization ID is required.
+        </div>
+      }
+    </div>
+    <button type="submit" [disabled]="form.invalid" class="btn-delete">Delete Organization</button>
+  </form>
+
+  @if (showConfirmation) {
+    <div class="confirmation-dialog">
+      <p>Are you sure you want to delete this organization?</p>
+      <button (click)="deleteOrganization()" class="btn-confirm">Yes, Delete</button>
+      <button (click)="cancelDelete()" class="btn-cancel">Cancel</button>
+    </div>
+  }
+
+  @if (success) {
+    <div class="success-message">
+      {{ success }}
+    </div>
+  }
+  @if (error) {
+    <div class="error-message">
+      {{ error }}
+    </div>
+  }
+</div>

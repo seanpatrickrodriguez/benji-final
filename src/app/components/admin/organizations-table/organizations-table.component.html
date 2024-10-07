@@ -1,0 +1,40 @@
+<div class="organizations-table-container">
+  <h2>Organizations List</h2>
+
+  @if (error) {
+    <div class="error-message">
+      {{ error }}
+    </div>
+  }
+
+  @if (organizations.length > 0) {
+    <table class="organizations-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Contact Number</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (organization of organizations; track organization) {
+          <tr>
+            <td>{{ organization.name }}</td>
+            <td>{{ organization.address }}</td>
+            <td>{{ organization.contactNumber }}</td>
+            <td>
+              <button (click)="deleteOrganization(organization.id)" class="btn-delete">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (organizations.length === 0) {
+    <div class="no-organizations-message">
+      No organizations found.
+    </div>
+  }
+</div>

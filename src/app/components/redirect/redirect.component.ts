@@ -6,17 +6,19 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-redirect',
   standalone: true,
-  templateUrl: './redirect.component.html',
-  styleUrl: './redirect.component.scss'
+  styleUrl: './redirect.component.scss',
+  template: `
+    <p>redirect works!</p>
+  `,
 })
 export class RedirectComponent {
   constructor(
     private auth: AuthService,
     private router: Router,
-  ) { 
+  ) {
     this.isLoggedIn();
   }
-  
+
   @WithLoading()
   isLoggedIn() {
     if (this.auth.isLoggedIn()) {

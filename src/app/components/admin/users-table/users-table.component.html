@@ -1,1 +1,40 @@
-<p>users-table works!</p>
+<div class="users-table-container">
+  <h2>Users List</h2>
+
+  @if (error) {
+    <div class="error-message">
+      {{ error }}
+    </div>
+  }
+
+  @if (users.length > 0) {
+    <table class="users-table">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of users; track user) {
+          <tr>
+            <td>{{ user.email }}</td>
+            <td>{{ user.phoneNumber }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+              <button (click)="deleteUser(user.uid)" class="btn-delete">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (users.length === 0) {
+    <div class="no-users-message">
+      No users found.
+    </div>
+  }
+</div>

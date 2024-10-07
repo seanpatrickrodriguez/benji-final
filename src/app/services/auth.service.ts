@@ -74,7 +74,7 @@ export class AuthService {
    * @returns A promise that resolves with the response from the backend function.
    */
   @WithLoading()
-  sendPasswordReset(staffId: string, email?: string, phoneNumber?: string) {
-    return httpsCallable(this.functions, 'sendPasswordReset')({ staffId, email, phoneNumber });
+  sendPasswordReset(id: string, email?: string, phoneNumber?: string) {
+    return httpsCallable(this.functions, 'sendPasswordReset')({ id, email, phoneNumber });
   }
 }

@@ -1,2 +1,11 @@
-<p>login works!</p>
-<app-username-password-form></app-username-password-form>
+<div class="login-container">
+  <h2>Login</h2>
+  
+  <app-username-password-form (login)="login($event.username, $event.password)"></app-username-password-form>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <button class="btn-link" (click)="goToRecovery()">Forgot Password?</button>
+</div>

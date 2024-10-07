@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { User, UsersTableService } from '../../../services/admin/users-table.service';
 import { AdminService } from '../../../services/admin/admin.service';
+import { User, UserService } from '../../../services/admin/user.service';
 
 
 @Component({
@@ -12,10 +12,10 @@ import { AdminService } from '../../../services/admin/admin.service';
 export class UsersTableComponent implements OnInit {
   users: User[] = [];
   error: string | null = null;
-  loading: boolean = false;
+  success: string | null = null;
 
   constructor(
-    private usersTableService: UsersTableService,
+    private userAdminService: UserService,
     private adminService: AdminService,
   ) { }
 
@@ -27,17 +27,14 @@ export class UsersTableComponent implements OnInit {
    * Fetches the list of users from Firestore using UsersTableService.
    */
   fetchUsers() {
-    this.loading = true;
     this.error = null;
 
-    this.usersTableService.getUsers().subscribe({
+    this.userAdminService.getUsers().subscribe({
       next: (users: User[]) => {
         this.users = users;
-        this.loading = false;
       },
       error: (error: any) => {
         this.error = 'Error fetching users: ' + error.message;
-        this.loading = false;
       }
     });
   }

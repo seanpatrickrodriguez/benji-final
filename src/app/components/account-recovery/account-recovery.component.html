@@ -1,0 +1,49 @@
+<div class="account-recovery-container">
+  <h2>Account Recovery</h2>
+
+  <form [formGroup]="form" (ngSubmit)="recoverAccount()">
+    <div class="form-group">
+      <label for="staffId">Staff ID:</label>
+      <input type="text" id="staffId" formControlName="staffId" placeholder="Enter your Staff ID" />
+      @if (form.get('staffId')?.invalid && form.get('staffId')?.touched) {
+        <div class="error-message">
+          Staff ID is required.
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" formControlName="email" placeholder="Enter your email (optional)" />
+      @if (form.get('email')?.invalid && form.get('email')?.touched) {
+        <div class="error-message">
+          Please enter a valid email address.
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="phoneNumber">Phone Number:</label>
+      <input type="text" id="phoneNumber" formControlName="phoneNumber" placeholder="Enter your phone number (optional)" />
+      @if (form.get('phoneNumber')?.invalid && form.get('phoneNumber')?.touched) {
+        <div class="error-message">
+          Please enter a valid phone number.
+        </div>
+      }
+    </div>
+
+    <button type="submit" [disabled]="form.invalid" class="btn-recover">Recover Account</button>
+  </form>
+
+  @if (success) {
+    <div class="success-message">
+      {{ success }}
+    </div>
+  }
+
+  @if (error) {
+    <div class="error-message">
+      {{ error }}
+    </div>
+  }
+</div>

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collectionData, collection, deleteDoc, doc } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { collection, collectionData, Firestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs/internal/Observable';
+
 
 export interface User {
   id: string;
+  uid: string;
   email: string;
   phoneNumber: string;
   role: string;
@@ -12,10 +14,10 @@ export interface User {
 
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class UsersTableService {
-  constructor(private firestore: Firestore) {}
+export class UserService {
+  constructor(private firestore: Firestore) { }
 
   /**
    * Fetches all users from the 'users' collection in Firestore.
