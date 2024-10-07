@@ -1,43 +1,93 @@
-import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, deleteDoc, updateDoc, doc, collectionData, CollectionReference, DocumentData } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Injectable, WritableSignal, signal } from '@angular/core';
+import { Functions, httpsCallable, HttpsCallableResult } from '@angular/fire/functions';
 import { WithLoading } from '../../decorators/with-loading.decorator';
 
 export interface Organization {
-  id: string;
+  organizationId?: string;
   name: string;
   address: string;
   contactNumber: string;
+  email: string;
+  participants: string[];
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrganizationService {
-  private orgCollection: CollectionReference<DocumentData>
+  organizations: WritableSignal<Organization[]> = signal([]);
+  error: WritableSignal<string | null> = signal(null);
+  success: WritableSignal<string | null> = signal(null);
 
-  constructor(private firestore: Firestore) {
-    this.orgCollection = collection(this.firestore, 'organizations');
+  constructor(private functions: Functions) {}
+
+  @WithLoading()
+  async getOrganizations(): Promise<Organization[]> {
+    this.error.set(null);
+    this.success.set(null);
+
+    try {
+      const getOrganizationsFunction = httpsCallable(this.functions, 'getOrganizations');
+      const result = await getOrganizationsFunction() as HttpsCallableResult<Organization[]>;
+      this.organizations.set(result.data);
+      this.success.set('Organizations fetched successfully.');
+      return result.data;
+    } catch (error: any) {
+      this.error.set('Error fetching organizations: ' + error.message);
+      throw new Error('Error fetching organizations: ' + error.message);
+    }
   }
 
   @WithLoading()
-  createOrganization(organization: Organization): Promise<void> {
-    return addDoc(this.orgCollection, organization).then(() => { });
+  async createOrganization(organization: Organization): Promise<void> {
+    this.error.set(null);
+    this.success.set(null);
+
+    try {
+      const createOrganizationFunction = httpsCallable(this.functions, 'createOrganization');
+      await createOrganizationFunction(organization);
+      const updatedOrganizations = [...this.organizations(), organization];
+      this.organizations.set(updatedOrganizations);
+      this.success.set('Organization created successfully.');
+    } catch (error: any) {
+      this.error.set('Error creating organization: ' + error.message);
+      throw new Error('Error creating organization: ' + error.message);
+    }
   }
 
   @WithLoading()
-  deleteOrganization(id: string): Promise<void> {
-    const orgDocRef = doc(this.firestore, `organizations/${id}`);
-    return deleteDoc(orgDocRef);
+  async updateOrganization(organizationId: string, updatedData: Partial<Organization>): Promise<void> {
+    this.error.set(null);
+    this.success.set(null);
+
+    try {
+      const updateOrganizationFunction = httpsCallable(this.functions, 'updateOrganization');
+      await updateOrganizationFunction({ organizationId, ...updatedData });
+      const updatedOrganizations = this.organizations().map(org =>
+        org.organizationId === organizationId ? { ...org, ...updatedData } : org
+      );
+      this.organizations.set(updatedOrganizations);
+      this.success.set('Organization updated successfully.');
+    } catch (error: any) {
+      this.error.set('Error updating organization: ' + error.message);
+      throw new Error('Error updating organization: ' + error.message);
+    }
   }
 
   @WithLoading()
-  updateOrganization(id: string, organization: Partial<Organization>): Promise<void> {
-    const orgDocRef = doc(this.firestore, `organizations/${id}`);
-    return updateDoc(orgDocRef, organization);
-  }
+  async deleteOrganization(organizationId: string): Promise<void> {
+    this.error.set(null);
+    this.success.set(null);
 
-  getOrganizations(): Observable<Organization[]> {
-    return collectionData(this.orgCollection, { idField: 'id' }) as Observable<Organization[]>;
+    try {
+      const deleteOrganizationFunction = httpsCallable(this.functions, 'deleteOrganization');
+      await deleteOrganizationFunction({ organizationId });
+      const updatedOrganizations = this.organizations().filter(org => org.organizationId !== organizationId);
+      this.organizations.set(updatedOrganizations);
+      this.success.set('Organization deleted successfully.');
+    } catch (error: any) {
+      this.error.set('Error deleting organization: ' + error.message);
+      throw new Error('Error deleting organization: ' + error.message);
+    }
   }
 }
