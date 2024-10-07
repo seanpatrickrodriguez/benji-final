@@ -1,0 +1,49 @@
+<div class="participants-table-container">
+  <h2>Participants List</h2>
+
+  @if (error()) {
+    <div class="error-message">
+      {{ error() }}
+    </div>
+  }
+
+  @if (participants().length > 0) {
+    <table class="participants-table">
+      <thead>
+        <tr>
+          <th>Participant ID</th>
+          <th>Affiliate Site Acronym</th>
+          <th>Coach ID</th>
+          <th>Cohort ID</th>
+          <th>Sex</th>
+          <th>Age</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (participant of participants(); track participant) {
+          <tr>
+            <td>{{ participant.participantId }}</td>
+            <td>{{ participant.affiliateSiteAcronym }}</td>
+            <td>{{ participant.coachId }}</td>
+            <td>{{ participant.cohortId }}</td>
+            <td>{{ participant.sex }}</td>
+            <td>{{ participant.birthdate }}</td>
+            <td>{{ participant.city }}</td>
+            <td>{{ participant.state }}</td>
+            <td>
+              <button (click)="deleteParticipant(participant.participantId)" class="btn-delete">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+  @else {
+    <div class="no-participants-message">
+      No participants found.
+    </div>
+  }
+</div>
