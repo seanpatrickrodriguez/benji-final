@@ -1,0 +1,19 @@
+<div class="delete-session-container">
+  <h2>Delete Session</h2>
+
+  <form [formGroup]="form" (ngSubmit)="confirmDelete()">
+    <label for="sessionId">Session ID:</label>
+    <input id="sessionId" formControlName="sessionId" />
+
+    <button type="submit">Delete Session</button>
+
+    <div *ngIf="showConfirmation()">
+      <p>Are you sure you want to delete this session?</p>
+      <button (click)="deleteSession()" type="button">Yes, Delete</button>
+      <button (click)="cancelDelete()" type="button">Cancel</button>
+    </div>
+
+    <div *ngIf="success()">{{ success() }}</div>
+    <div *ngIf="error()">{{ error() }}</div>
+  </form>
+</div>

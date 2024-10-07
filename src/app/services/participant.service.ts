@@ -1,6 +1,6 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
 import { Functions, httpsCallable, HttpsCallableResult } from '@angular/fire/functions';
-import { Participant } from '../components/participants-table/participants-table.component';
+import { Participant } from '../components/participants/table/table.component';
 import { WithLoading } from '../decorators/with-loading.decorator';
 
 @Injectable({

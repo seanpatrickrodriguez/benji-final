@@ -1,0 +1,34 @@
+<div class="create-session-container">
+  <h2>Create Session</h2>
+
+  <form [formGroup]="form" (ngSubmit)="createSession()">
+    <label for="participantId">Participant ID:</label>
+    <input id="participantId" formControlName="participantId" />
+
+    <label for="sessionDate">Session Date:</label>
+    <input id="sessionDate" type="date" formControlName="sessionDate" />
+
+    <label for="sessionNumber">Session Number:</label>
+    <input id="sessionNumber" type="number" formControlName="sessionNumber" />
+
+    <label for="isMakeup">Is Makeup:</label>
+    <input id="isMakeup" type="checkbox" formControlName="isMakeup" />
+
+    <label for="transportationService">Transportation Service:</label>
+    <input id="transportationService" formControlName="transportationService" />
+
+    <label for="wellnessActivity">Wellness Activities:</label>
+    <input id="wellnessActivity" formControlName="wellnessActivity" />
+
+    <label for="bodyWeight">Body Weight:</label>
+    <input id="bodyWeight" type="number" formControlName="bodyWeight" />
+
+    <label for="weeklyPhysicalActivityMinutes">Weekly Physical Activity Minutes:</label>
+    <input id="weeklyPhysicalActivityMinutes" type="number" formControlName="weeklyPhysicalActivityMinutes" />
+
+    <button type="submit">Create Session</button>
+
+    <div *ngIf="success()">{{ success() }}</div>
+    <div *ngIf="error()">{{ error() }}</div>
+  </form>
+</div>

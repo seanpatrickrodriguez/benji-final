@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { ParticipantService } from '../../services/participant.service';
-import { WithLoading } from '../../decorators/with-loading.decorator';
+import { ParticipantService } from '../../../services/participant.service';
+import { WithLoading } from '../../../decorators/with-loading.decorator';
 
 @Component({
   selector: 'app-delete-participant',
   standalone: true,
-  templateUrl: './delete-participant.component.html',
-  styleUrls: ['./delete-participant.component.scss']
+  templateUrl: './delete.component.html',
+  styleUrls: ['./delete.component.scss']
 })
 export class DeleteParticipantComponent {
   error: string | null = null;

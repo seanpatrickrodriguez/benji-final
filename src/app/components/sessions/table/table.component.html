@@ -1,0 +1,36 @@
+<div class="sessions-table-container">
+  <h2>Sessions List</h2>
+
+  <div *ngIf="error()">
+    <div class="error-message">{{ error() }}</div>
+  </div>
+
+  <div *ngIf="sessions().length > 0">
+    <table class="sessions-table">
+      <thead>
+        <tr>
+          <th>Session ID</th>
+          <th>Participant ID</th>
+          <th>Session Date</th>
+          <th>Session Number</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let session of sessions()">
+          <td>{{ session.sessionId }}</td>
+          <td>{{ session.participantId }}</td>
+          <td>{{ session.sessionDate }}</td>
+          <td>{{ session.sessionNumber }}</td>
+          <td>
+            <button (click)="deleteSession(session.sessionId)" class="btn-delete">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="sessions().length === 0">
+    <div class="no-sessions-message">No sessions found.</div>
+  </div>
+</div>

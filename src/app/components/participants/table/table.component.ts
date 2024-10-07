@@ -1,5 +1,5 @@
 import { Component, OnInit, Signal, signal, WritableSignal } from '@angular/core';
-import { ParticipantService } from '../../services/participant.service';
+import { ParticipantService } from '../../../services/participant.service';
 
 export interface Participant {
   participantId: string;
@@ -31,8 +31,8 @@ export interface Participant {
 @Component({
   selector: 'app-participants-table',
   standalone: true,
-  templateUrl: './participants-table.component.html',
-  styleUrls: ['./participants-table.component.scss']
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.scss']
 })
 export class ParticipantsTableComponent implements OnInit {
   participants: WritableSignal<Participant[]> = signal([]);

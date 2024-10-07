@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ParticipantService } from '../../services/participant.service';
-import { WithLoading } from '../../decorators/with-loading.decorator';
+import { ParticipantService } from '../../../services/participant.service';
+import { WithLoading } from '../../../decorators/with-loading.decorator';
 
 @Component({
   selector: 'app-update-participant',
   standalone: true,
   imports: [ReactiveFormsModule],
-  templateUrl: './update-participant.component.html',
-  styleUrls: ['./update-participant.component.scss']
+  templateUrl: './update.component.html',
+  styleUrls: ['./update.component.scss']
 })
 export class UpdateParticipantComponent {
   form: FormGroup;
