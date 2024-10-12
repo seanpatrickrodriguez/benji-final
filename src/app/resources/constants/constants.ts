@@ -629,6 +629,19 @@ export const PAYER_SOURCE                                = {
   OTHER                                                  : 'Other',
 } as const;
 
+export const PIDPP_TIMELINE = [
+  { programYear: 1, startDate: '2017-09-30', endDate: '2018-09-29' },
+  { programYear: 2, startDate: '2018-09-30', endDate: '2019-09-29' },
+  { programYear: 3, startDate: '2019-09-30', endDate: '2020-09-29' },
+  { programYear: 4, startDate: '2020-09-30', endDate: '2021-09-29' },
+  { programYear: 5, startDate: '2021-09-30', endDate: '2022-09-29' },
+  { programYear: 6, startDate: '2022-09-30', endDate: '2023-09-29' },
+  { programYear: 7, startDate: '2023-09-30', endDate: '2024-09-29' },
+  { programYear: 8, startDate: '2024-09-30', endDate: '2025-09-29' },
+  { programYear: 9, startDate: '2025-09-30', endDate: '2026-09-29' },
+] as const;
+
+
 export const PREDIABETES_RISK_TEST_RANGES                = {
   // Greater than or equal to the low
   // Less than the high

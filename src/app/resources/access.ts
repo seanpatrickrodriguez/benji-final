@@ -1,6 +1,6 @@
 // access.ts
 
-import { ID_FIELD, ROLES } from "./constants";
+import { ID_FIELD, ROLES } from "./constants/constants";
 import { QueryConstraints } from "./types";
 
 

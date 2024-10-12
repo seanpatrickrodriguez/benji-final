@@ -18,7 +18,7 @@ import {
   ID_FIELD,
   ROLES,
   COLLECTIONS,
-} from './constants';
+} from './constants/constants';
 
 import { QueryConstraint, UserProfile } from './interfaces';
 

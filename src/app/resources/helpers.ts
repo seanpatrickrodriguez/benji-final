@@ -1,6 +1,6 @@
 import { AbstractControl, AsyncValidatorFn } from "@angular/forms";
 import { Observable, debounceTime, distinctUntilChanged, of, switchMap, timer } from "rxjs";
-import { NAVIGATION } from "./constants";
+import { NAVIGATION } from "./constants/constants";
 
 export function debounceValidator(
     validator: AsyncValidatorFn,
